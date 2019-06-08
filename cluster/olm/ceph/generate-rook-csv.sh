@@ -6,7 +6,6 @@ set -e
 ##################
 OLM_CATALOG_DIR=cluster/olm/ceph
 CSV_PATH="$OLM_CATALOG_DIR/deploy/olm-catalog"
-DEFAULT_CSV_FILE_NAME="${CSV_PATH}/ceph.csv.yaml"
 ASSEMBLE_FILE_COMMON="$OLM_CATALOG_DIR/assemble/metadata-common.yaml"
 ASSEMBLE_FILE_K8S="$OLM_CATALOG_DIR/assemble/metadata-k8s.yaml"
 ASSEMBLE_FILE_OCP="$OLM_CATALOG_DIR/assemble/metadata-openshift.yaml"
@@ -33,7 +32,7 @@ if [[ -z "$1" ]]; then
     echo ""
     echo "ARGUMENT'S ORDER MATTERS"
     echo ""
-    echo "make csv CSV_VERSION=1.0.1 CSV_PLATORM=k8s ROOK_OP_VERSION=rook/ceph:v1.0.1"
+    echo "make csv-ceph CSV_VERSION=1.0.1 CSV_PLATFORM=k8s ROOK_OP_VERSION=rook/ceph:v1.0.1"
     exit 1
 fi
 VERSION=$1
@@ -43,7 +42,7 @@ if [[ -z $2 ]]; then
     echo ""
     echo "ARGUMENT'S ORDER MATTERS"
     echo ""
-    echo "make csv CSV_VERSION=1.0.1 CSV_PLATORM=k8s ROOK_OP_VERSION=rook/ceph:v1.0.1"
+    echo "make csv-ceph CSV_VERSION=1.0.1 CSV_PLATFORM=k8s ROOK_OP_VERSION=rook/ceph:v1.0.1"
     exit 1
 fi
 
@@ -61,11 +60,12 @@ if [[ -z $3 ]]; then
     echo ""
     echo "ARGUMENT'S ORDER MATTERS"
     echo ""
-    echo "make csv CSV_VERSION=1.0.1 CSV_PLATORM=k8s ROOK_OP_VERSION=rook/ceph:v1.0.1"
+    echo "make csv-ceph CSV_VERSION=1.0.1 CSV_PLATFORM=k8s ROOK_OP_VERSION=rook/ceph:v1.0.1"
     exit 1
 fi
 ROOK_OP_VERSION=$3
 
+DEFAULT_CSV_FILE_NAME="${CSV_PATH}/ceph/${VERSION}/ceph.v${VERSION}.clusterserviceversion.yaml"
 DESIRED_CSV_FILE_NAME="${CSV_PATH}/rook-ceph.v${VERSION}.clusterserviceversion.yaml"
 if [[ -f "$DESIRED_CSV_FILE_NAME" ]]; then
     echo "$DESIRED_CSV_FILE_NAME already exists, not doing anything."
